@@ -23,7 +23,7 @@ $ ./build.sh -compile -run
 | Windows |
 |:---:|
 
-Sem suporte (ainda).
+Sem suporte (ainda). Veja a [Issue #1](https://github.com/alexandreboutrik/units/issues/1).
 
 ## LICENSE
 
