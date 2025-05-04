@@ -11,7 +11,7 @@ CFLAGS="-std=c++17 -pipe -Os"
 WARNFLAGS="-W -Wall -Wpedantic -Wformat=2"
 
 CINCL="-I./include -I./source"
-CFILES="source/*.cpp"
+CFILES="source/*.cpp source/include/*.cpp"
 
 EXEFILE="./build/units"
 ASSETS="/home/$(whoami)/.local/share/units"
@@ -100,7 +100,7 @@ function compile() {
 
     ${CC} ${CFLAGS} ${CINCL} ${CFILES} ${WARNFLAGS} ${LDFLAGS} \
         -DASSETS=\"${ASSETS}/assets\" \
-        -o "${EXEFILE}" && echo "+ Helix compiled successfully."
+        -o "${EXEFILE}" && echo "+ Units compiled successfully."
 }
 
 function clean() {
