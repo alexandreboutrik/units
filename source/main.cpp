@@ -1,26 +1,31 @@
-#include <raylib.h>
-
 #include <iostream>
+
+#include "configuration.hpp"
+#include "window.hpp"
 
 int
 main(void)
 {
-    InitWindow(900, 900, "TEST");
-    SetTargetFPS(60);
+    rl::InitWindow(16, 16, WINDOW_TITLE);
+    rl::SetTargetFPS(60);
 
-    while (! WindowShouldClose())
+    while (! rl::WindowShouldClose())
     {
-        BeginDrawing();
+        if (FORCE_FULLSCREEN && (! rl::IsWindowFullscreen()))
+            rl::ToggleFullscreen();
+        else
+            window::ResizeWindow();
 
-        ClearBackground(BLUE);
-        DrawRectangle(20, 20, 60, 60, RED);
+        rl::BeginDrawing();
 
-        DrawText("TEST TEXT", 100, 100, 30, WHITE);
+        {
+            rl::ClearBackground(WHITE);
+        }
 
-        EndDrawing();
+        rl::EndDrawing();
     }
 
-    CloseWindow();
+  rl::CloseWindow();
 
-    return 0;
+  return 0;
 }
