@@ -2,6 +2,7 @@
 
 namespace window {
 
-extern void   ResizeWindow();
+extern  void    InitWindow();
+extern  void    ResizeWindow();
 
 } /* window namespace */

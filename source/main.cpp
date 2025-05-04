@@ -6,14 +6,15 @@
 int
 main(void)
 {
-    rl::InitWindow(16, 16, WINDOW_TITLE);
+    window::InitWindow();
     rl::SetTargetFPS(60);
+
+    if (FORCE_FULLSCREEN)
+        rl::ToggleFullscreen();
 
     while (! rl::WindowShouldClose())
     {
-        if (FORCE_FULLSCREEN && (! rl::IsWindowFullscreen()))
-            rl::ToggleFullscreen();
-        else
+        if (! FORCE_FULLSCREEN)
             window::ResizeWindow();
 
         rl::BeginDrawing();
