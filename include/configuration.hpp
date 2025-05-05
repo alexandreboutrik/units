@@ -7,6 +7,12 @@
 #include "raylib.h"
 #define rl
 
-#define   WINDOW_TITLE        "UNITS"
-#define   FORCE_FULLSCREEN    false
-#define   SCALING_WINDOWED    0.75
+#define     WINDOW_TITLE        "UNITS"
+#define     FORCE_FULLSCREEN    false
+#define     SCALING_WINDOWED    0.75
+
+#define     MAIN_FONT_FILE      "AgaveNerdFont-Regular.ttf"
+
+#ifndef ASSETS
+#define ASSETS "."
+#endif
