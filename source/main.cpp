@@ -44,6 +44,10 @@ main(void)
             DrawTextEx(MAIN_FONT_64, "Agave Font",
                 Vector2{ 200, 200 }, 64, 0, BLACK);
             DrawText("Raylib Font", 200, 300, 64, BLACK);
+            DrawTextEx(assets::Manager::Get().GetFont("liberation-sans"),
+                "Liberation Sans Font", Vector2{ 200, 400 }, 64, 0, BLACK);
+            DrawTextEx(assets::Manager::Get().GetFont("marcha"),
+                "Marcha Font", Vector2{ 200, 500 }, 64, 0, BLACK);
         }
 
         rl::EndDrawing();

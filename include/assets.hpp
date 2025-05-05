@@ -62,6 +62,8 @@ private:
         /* Fonts */
         Manager::LoadFont("main", MAIN_FONT_FILE);
         Manager::LoadFont("main_64", MAIN_FONT_FILE, 64);
+        Manager::LoadFont("liberation-sans", "LiberationSans-Regular.ttf", 64);
+        Manager::LoadFont("marcha", "Marcha.ttf", 64);
     }
 
     /* Destructor */
