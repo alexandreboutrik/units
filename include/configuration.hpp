@@ -11,6 +11,8 @@
 #define     FORCE_FULLSCREEN    false
 #define     SCALING_WINDOWED    0.75
 
+#define     BACKGROUND_COLOR    RAYWHITE
+
 #define     MAIN_FONT_FILE      "AgaveNerdFont-Regular.ttf"
 
 #ifndef ASSETS
