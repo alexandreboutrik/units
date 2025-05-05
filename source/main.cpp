@@ -41,13 +41,11 @@ main(void)
              * TEMPORARY: Test DrawImage and DrawText rendering
              */
             assets::Manager::Get().DrawImage("logo", 10, 10);
-            DrawTextEx(MAIN_FONT_64, "Agave Font",
-                Vector2{ 200, 200 }, 64, 0, BLACK);
+
+            window::DrawText("main_64", "Agave Font", 200, 200, BLACK);
             DrawText("Raylib Font", 200, 300, 64, BLACK);
-            DrawTextEx(assets::Manager::Get().GetFont("liberation-sans"),
-                "Liberation Sans Font", Vector2{ 200, 400 }, 64, 0, BLACK);
-            DrawTextEx(assets::Manager::Get().GetFont("marcha"),
-                "Marcha Font", Vector2{ 200, 500 }, 64, 0, BLACK);
+            window::DrawText("liberation-sans", "Liberation Sans Font", 200, 400, BLACK);
+            window::DrawText("marcha", "Marcha Font", 200, 500, BLACK);
         }
 
         rl::EndDrawing();

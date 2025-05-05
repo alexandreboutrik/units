@@ -1,6 +1,6 @@
 #include "window.hpp"
 
-#include "configuration.hpp"
+#include "assets.hpp"
 
 namespace window {
 
@@ -28,6 +28,16 @@ ResizeWindow()
 
     rl::SetWindowPosition(pos_x, pos_y);
     rl::SetWindowSize(w_width, w_height);
+}
+
+extern void
+DrawText(
+    const std::string& fontName, const std::string& text,
+    const float pos_x, const float pos_y, Color tint)
+{
+    auto [font, fontSize] = assets::Manager::Get().GetFontData(fontName);
+
+    rl::DrawTextEx(font, text.c_str(), Vector2{ pos_x, pos_y }, fontSize, 0, tint);
 }
 
 } /* window namespace */

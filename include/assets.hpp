@@ -1,6 +1,7 @@
 #pragma once
 
 #include <string>
+#include <tuple>
 #include <unordered_map>
 
 #include "configuration.hpp"
@@ -11,12 +12,8 @@
  */
 #define     NO_RESIZE       -1
 
-/*
- * Convenience Macros for accessing commonly used fonts.
- *  MAIN_FONT_<sz> - Primary application font at <sz> size.
- */
-#define     MAIN_FONT       assets::Manager::Get().GetFont("main")
-#define     MAIN_FONT_64    assets::Manager::Get().GetFont("main_64")
+/* Fonts have an extra int for fontSize */
+using FontData = std::tuple<Font, int>;
 
 namespace assets {
 /*
@@ -48,7 +45,9 @@ public:
     void LoadFont(
         const std::string& name, const std::string& path,
         const int fontSize = 128);
+    FontData& GetFontData(const std::string& name);
     Font& GetFont(const std::string& name);
+    int GetFontSize(const std::string& name);
     void UnloadFont(const std::string& name);
 
 
@@ -62,6 +61,8 @@ private:
         /* Fonts */
         Manager::LoadFont("main", MAIN_FONT_FILE);
         Manager::LoadFont("main_64", MAIN_FONT_FILE, 64);
+
+        Manager::LoadFont("agave", "AgaveNerdFont-Regular.ttf", 64);
         Manager::LoadFont("liberation-sans", "LiberationSans-Regular.ttf", 64);
         Manager::LoadFont("marcha", "Marcha.ttf", 64);
     }
@@ -72,7 +73,7 @@ private:
     /* Assets storage */
     std::unordered_map<std::string, Texture2D> textures;
     std::unordered_map<std::string, Image> images;
-    std::unordered_map<std::string, Font> fonts;
+    std::unordered_map<std::string, FontData> fonts;
 };
 
 } /* assets namespace */

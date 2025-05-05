@@ -18,8 +18,8 @@ Manager::UnloadAll()
         rl::UnloadTexture(texture);
     for (auto& [name, image] : images)
         rl::UnloadImage(image);
-    for (auto& [name, font] : fonts)
-        rl::UnloadFont(font);
+    for (auto& [name, fontData] : fonts)
+        rl::UnloadFont(std::get<0>(fontData));
 
     /* Removes all elements from the maps */
     textures.clear();
@@ -92,13 +92,27 @@ Manager::LoadFont(
 
     std::string full_path = std::string(ASSETS) + "/" + path;
 
-    fonts[name] = rl::LoadFontEx(full_path.c_str(), fontSize, NULL, 0);
+    Font ft = rl::LoadFontEx(full_path.c_str(), fontSize, NULL, 0);
+
+    fonts[name] = std::make_tuple(ft, fontSize);
+}
+
+FontData&
+Manager::GetFontData(const std::string& name)
+{
+    return fonts.at(name);
 }
 
 Font&
 Manager::GetFont(const std::string& name)
 {
-    return fonts.at(name);
+    return std::get<0>(fonts.at(name));
+}
+
+int
+Manager::GetFontSize(const std::string& name)
+{
+    return std::get<1>(fonts.at(name));
 }
 
 void
@@ -106,11 +120,10 @@ Manager::UnloadFont(const std::string& name)
 {
     if (fonts.count(name))
     {
-        rl::UnloadFont(fonts.at(name));
+        rl::UnloadFont(std::get<0>(fonts.at(name)));
 
         fonts.erase(name);
     }
 }
-
 
 } /* assets namespace */
