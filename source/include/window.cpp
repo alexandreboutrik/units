@@ -10,10 +10,13 @@ InitWindow()
     int cur_mon = rl::GetCurrentMonitor();
 
     rl::InitWindow(rl::GetMonitorWidth(cur_mon), rl::GetMonitorHeight(cur_mon), WINDOW_TITLE);
+
+    /* Centralize the window */
+    window::ResizeWindow(true);
 }
 
 extern void
-ResizeWindow()
+ResizeWindow(const bool centralize)
 {
     int cur_mon = rl::GetCurrentMonitor();
 
@@ -23,10 +26,14 @@ ResizeWindow()
     int w_width  = SCALING_WINDOWED * mon_width;
     int w_height = SCALING_WINDOWED * mon_height;
 
-    int pos_x = (mon_width  - w_width) / 2;
-    int pos_y = (mon_height - w_height) / 2;
+    if (centralize)
+    {
+        int pos_x = (mon_width  - w_width) / 2;
+        int pos_y = (mon_height - w_height) / 2;
 
-    rl::SetWindowPosition(pos_x, pos_y);
+        rl::SetWindowPosition(pos_x, pos_y);
+    }
+
     rl::SetWindowSize(w_width, w_height);
 }
 
