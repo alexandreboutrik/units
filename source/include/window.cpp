@@ -47,4 +47,10 @@ DrawText(
     rl::DrawTextEx(font, text.c_str(), Vector2{ pos_x, pos_y }, fontSize, 0, tint);
 }
 
+extern void
+DrawImage(const std::string& name, const int pos_x, const int pos_y)
+{
+    assets::Manager::Get().DrawImage(name, pos_x, pos_y);
+}
+
 } /* window namespace */

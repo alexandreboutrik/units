@@ -40,12 +40,12 @@ main(void)
             /*
              * TEMPORARY: Test DrawImage and DrawText rendering
              */
-            assets::Manager::Get().DrawImage("logo", 10, 10);
+            window::DrawImage("logo", 10, 10);
 
-            window::DrawText("main_64", "Agave Font", 200, 200, BLACK);
-            DrawText("Raylib Font", 200, 300, 64, BLACK);
-            window::DrawText("liberation-sans", "Liberation Sans Font", 200, 400, BLACK);
-            window::DrawText("marcha", "Marcha Font", 200, 500, BLACK);
+            window::DrawText("main_64", "Agave Font 1234567890", 200, 200, BLACK);
+            rl::DrawText("Raylib Font 1234567890", 200, 300, 64, BLACK);
+            window::DrawText("liberation-sans", "Liberation Sans Font 1234567890", 200, 400, BLACK);
+            window::DrawText("marcha", "Marcha Font 1234567890", 200, 500, BLACK);
         }
 
         rl::EndDrawing();
