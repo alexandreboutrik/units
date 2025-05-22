@@ -1,16 +1,19 @@
-#!/bin/bash
+#!/usr/bin/env bash
 
 mkdir -p ./build
+mkdir -p ./dependencies/include
 
-CC="c++"
+CC="cc"
+CXX="c++"
 
 RAYLIB="./dependencies/raylib/build/raylib"
 
-LDFLAGS="-L${RAYLIB} -l:libraylib.a -lm"
+LDFLAGS="-L${RAYLIB} -l:libraylib.a -lm -lX11 -lGL -lpthread -ldl -lrt"
 CFLAGS="-std=c++17 -pipe -Os"
 WARNFLAGS="-W -Wall -Wpedantic -Wformat=2"
 
-CINCL="-I./include -I./source"
+BUILDINCL="-I./dependencies/include"
+CINCL="-I./include -I./source ${BUILDINCL}"
 CFILES="source/*.cpp source/include/*.cpp"
 
 EXEFILE="./build/units"
@@ -61,12 +64,44 @@ function check_dependencies() {
             echo "! Distribution detected: Gentoo"
             echo "For Gentoo, you should handle the Raylib deps yourself."
             ;;
+	    *nixos*) ;& *NixOS*)
+            echo "! Distribution detected: NixOS"
+            if [ "${IN_NIX_SHELL}" == "" ] ; then
+                make_nix_shell
+                echo "! shell.nix generated."
+	            echo "For NixOS, please execute build.sh inside a nix-shell."
+                exit
+	        fi
+	        ;;
         *)
             echo "Unsupported Linux distribution. Exiting."
             exit 1
             ;;
         esac
     fi
+}
+
+function make_nix_shell() {
+    cat > shell.nix <<EOF
+        { pkgs ? import <nixpkgs> {} }:
+        pkgs.mkShell {
+            nativeBuildInputs = with pkgs.buildPackages; [
+                cmake gnumake pkg-config gcc unzip
+            ];
+            buildInputs = [
+                pkgs.libGL
+                pkgs.glfw
+                pkgs.xwayland
+                pkgs.xorg.libX11
+                pkgs.xorg.libX11.dev
+                pkgs.xorg.libXcursor
+                pkgs.xorg.libXrandr
+                pkgs.xorg.libXext
+                pkgs.xorg.libXinerama
+                pkgs.xorg.libXi
+            ];
+        }
+EOF
 }
 
 function compile_dep() {
@@ -89,6 +124,10 @@ function compile_dep() {
     { echo "Failed to compile ${1}. Make. Exiting." ; exit 1;}
 
     echo "+ Dependency: ${1} compiled successfully."
+
+    if [ "${4}" ] ; then
+        cp -v "./dependencies/${1}/${4}" ./dependencies/include
+    fi
 }
 
 function compile() {
@@ -96,15 +135,15 @@ function compile() {
     mkdir -p "${ASSETS}"
     cp -r -v "./assets" "${ASSETS}"
 
-    echo "  ${CC} ${CFLAGS} ${CINCL} ${CFILES} ${WARNFLAGS} ${LDFLAGS} -DASSETS=\"${ASSETS}/assets\" -o \"${EXEFILE}\""
+    echo "  ${CXX} ${CFLAGS} ${CINCL} ${CFILES} ${WARNFLAGS} ${LDFLAGS} -DASSETS=\"${ASSETS}/assets\" -o \"${EXEFILE}\""
 
-    ${CC} ${CFLAGS} ${CINCL} ${CFILES} ${WARNFLAGS} ${LDFLAGS} \
+    ${CXX} ${CFLAGS} ${CINCL} ${CFILES} ${WARNFLAGS} ${LDFLAGS} \
         -DASSETS=\"${ASSETS}/assets\" \
         -o "${EXEFILE}" && echo "+ Units compiled successfully."
 }
 
 function clean() {
-    rm -rf ./dependencies/raylib
+    rm -rf ./dependencies/{raylib,include}
     rm -rf ./build && mkdir ./build
     rm -rf "${ASSETS}"
 
@@ -136,7 +175,7 @@ while [ $# -ne 0 ] ; do
         ;;
     "-compile") ;& "compile") ;& "-c") ;& "c")
         check_dependencies
-        compile_dep "raylib" " " "PLATFORM=PLATFORM_DESKTOP"
+        compile_dep "raylib" " " "PLATFORM=PLATFORM_DESKTOP" "src/raylib.h"
         compile
         ;;
    "-run") ;& "run") ;& "-r") ;& "r")
