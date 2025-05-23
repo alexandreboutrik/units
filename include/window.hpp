@@ -17,6 +17,16 @@ extern void InitWindow();
 extern void ResizeWindow(const bool centralize = false);
 
 /*
+ * Returns the current width or height of the window multiplied by a
+ *  scaleFactor.
+ *
+ * @param scaleFactor   constant multiplier
+ * @return              scaled width or height based on current window width
+ */
+extern int GetScaleWidth(const float scaleFactor = 1.0f);
+extern int GetScaleHeight(const float scaleFactor = 1.0f);
+
+/*
  * DrawText wrapper with automatic font and fontSize lookup by [fontName].
  *
  * @param fontName      font identifier

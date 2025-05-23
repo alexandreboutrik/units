@@ -23,7 +23,7 @@ ResizeWindow(const bool centralize)
     int mon_width  = rl::GetMonitorWidth(cur_mon);
     int mon_height = rl::GetMonitorHeight(cur_mon);
 
-    int w_width  = SCALING_WINDOWED * mon_width;
+    int w_width  = SCALING_WINDOWED * SCALING_WINDOWED * mon_width;
     int w_height = SCALING_WINDOWED * mon_height;
 
     if (centralize)
@@ -35,6 +35,18 @@ ResizeWindow(const bool centralize)
     }
 
     rl::SetWindowSize(w_width, w_height);
+}
+
+extern int
+GetScaleWidth(const float scaleFactor)
+{
+    return rl::GetMonitorWidth(rl::GetCurrentMonitor()) * scaleFactor;
+}
+
+extern int
+GetScaleHeight(const float scaleFactor)
+{
+    return rl::GetMonitorHeight(rl::GetCurrentMonitor()) * scaleFactor;
 }
 
 extern void
